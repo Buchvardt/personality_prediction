@@ -17,8 +17,11 @@ class BigFive():
     def __init__(self, data_folder: str = './data') -> None:
         """Initialize the BigFive class.
 
-        Arguments:
+        Args:
             data_folder (str): A string representing the folder to download ressources, if they do not exist.
+
+        Returns:
+            None
         """
 
         self.data_folder = './data'
@@ -48,10 +51,10 @@ class BigFive():
         The Big5 codebook contains:
         - An introduction
         - The questions
-        - Method 
+        - Method
 
         Returns:
-            List: List of text lines in the codebook.
+            List(str): List of text lines in the codebook.
         """
 
         file_path = os.path.join(self.data_folder, 'big5', 'codebook.txt')
@@ -64,7 +67,13 @@ class BigFive():
         return lines
 
     def get_questionare_sentences(self) -> Dict[str, List[str, int]]:
+        """Get questionare sentences.
 
+        Get all the 54 questions in a dictionary with {key = Question ID, value = [Question, Score]}.
+        
+        Returns:
+            Dict(str, List[str, int]): A dictionary with {key = Question ID, value = [Question, Score]}.
+        """
         # The questions are in lines 4 - 54.
         lines = self.get_codebook()[4:54]
 
@@ -86,12 +95,18 @@ class BigFive():
 
 
     def __get_question_scores(self) -> List[int]:
-        """
+        """Get question scores - internal function.
+
+        Scores determines if question contributes positive or negative to the final score.
         
-        Go To https://ipip.ori.org/newBigFive5broadTable.htm
+        See https://ipip.ori.org/newBigFive5broadTable.htm
         
         Based on this, we can se that a statemnet either contributes positively or negatively 
         to a personality trade score.
+        
+        Returns:
+            List(int): List of integers where scores[i] == 1 | -1 denotes if the corresponding 
+                       question[i] contributes positive or negative to the final score.
         """
 
         scores = [1, -1, 1, -1, 1, -1, 1, -1, 1, -1,
